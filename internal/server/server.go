@@ -15,7 +15,7 @@ type Server struct {
 
 func New(logger *log.Logger) *Server {
 	router := http.NewServeMux()
-	router.HandleFunc("/", handlers.Index)
+	router.HandleFunc("GET /{$}", handlers.Index)
 	router.HandleFunc("/upload", handlers.Upload)
 
 	return &Server{

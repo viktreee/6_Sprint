@@ -14,7 +14,10 @@ func Convert(data string) (string, error) {
 		return "", fmt.Errorf("input is empty")
 	}
 
-	if strings.Trim(data, ".- \t\r\n") == "" {
+	isText := strings.ContainsFunc(data, func(symbol rune) bool {
+		return !strings.ContainsRune(".- \t\r\n", symbol)
+	})
+	if !isText {
 		for _, code := range strings.Fields(data) {
 			if morse.MorseToRune(code) == 0 {
 				return "", fmt.Errorf("unknown Morse code %q", code)

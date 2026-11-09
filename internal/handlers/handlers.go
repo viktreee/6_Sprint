@@ -14,25 +14,7 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-	if r.Method != http.MethodGet {
-		w.Header().Set("Allow", http.MethodGet)
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	data, err := os.ReadFile("index.html")
-	if err != nil {
-		http.Error(w, fmt.Sprintf("read HTML file: %v", err), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if _, err := w.Write(data); err != nil {
-		log.Printf("write HTML response: %v", err)
-	}
+	http.ServeFile(w, r, "./index.html")
 }
 
 func Upload(w http.ResponseWriter, r *http.Request) {
